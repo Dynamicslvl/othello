@@ -1,0 +1,10 @@
+othello\global\Layer.class
+othello\manager\Game.class
+othello\global\CircleCollider.class
+othello\manager\MouseInput.class
+othello\manager\Handler.class
+othello\global\BoxCollider.class
+othello\manager\GameObject.class
+othello\manager\BufferedImageLoader.class
+othello\global\State.class
+othello\manager\Window.class
