@@ -5,11 +5,13 @@
 package othello.entity;
 
 import java.awt.image.BufferedImage;
+import othello.effect.Shadow;
 import static othello.global.General.*;
 import othello.global.Layer;
 import othello.global.State;
 import othello.manager.GameObject;
 import static othello.manager.Handler.piece_flip;
+import static othello.manager.Handler.spr_shadow;
 
 /**
  *
@@ -22,6 +24,7 @@ public class Piece extends GameObject {
     private float delay = 0, t = 0;
     private BufferedImage[] images;
     private int image_id = 0, image_count = 0;
+    private Shadow shadow;
 
     public Piece(float x, float y, int piece_color) {
         super(x, y, Layer.Piece);
@@ -31,7 +34,7 @@ public class Piece extends GameObject {
 
     @Override
     public void create() {
-        setDelay(0.02f);
+        setDelay(0.03f);
         setImages(piece_flip);
         if (piece_color == 1) {
             image = images[0];
@@ -41,6 +44,7 @@ public class Piece extends GameObject {
             image_id = 18;
         }
         set_centered_offset();
+        shadow = new Shadow(x + 8, y + 8);
     }
 
     @Override
@@ -65,6 +69,13 @@ public class Piece extends GameObject {
             } 
             image = images[image_id];
         }
+        float scale = 1.4f - 0.4f*Math.abs(9 - image_id)/9;
+        image_xscale = scale;
+        image_yscale = scale;
+        shadow.setImage(addAlphaImage(spr_shadow, (int) (150*(Math.abs(9 - image_id)/9f - 1))));
+        shadow.setImage_xscale(scale);
+        shadow.setImage_yscale(scale);
+        shadow.set_centered_offset();
         set_centered_offset();
     }
     

@@ -13,7 +13,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 import othello.entity.Board;
-import othello.entity.Piece;
 
 /**
  *
@@ -22,7 +21,7 @@ import othello.entity.Piece;
 
 public class Game extends Canvas implements Runnable {
     
-    public static final int WIDTH = grid_size*board_col + 5, HEIGHT = grid_size*board_row + 27;
+    public static final int WIDTH = grid_size*board_col, HEIGHT = grid_size*board_row;
     public static final String TITLE = "OTHELLO";
     public static State gameState = State.Game;
     
@@ -37,23 +36,22 @@ public class Game extends Canvas implements Runnable {
         }
     }
     
-    public void initObjects(){
+    public void initObjects() {
         new Board(0, 0);
-        
     }
     
-    public Game(){
+    public Game() {
         handler = new Handler();
         new Window(WIDTH, HEIGHT, TITLE, this);
     }
     
-    public synchronized void start(){
+    public synchronized void start() {
         thread = new Thread(this);
         thread.start();
         running = true;
     }
     
-    public synchronized void stop(){
+    public synchronized void stop() {
         try{
             thread.join();
             running = false;

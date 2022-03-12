@@ -11,6 +11,7 @@ import static othello.global.General.*;
 import othello.global.Layer;
 import othello.global.State;
 import othello.manager.GameObject;
+import othello.manager.Handler;
 import othello.ui.Dialog;
 import othello.ui.PossibleMove;
 
@@ -37,6 +38,8 @@ public class Board extends GameObject {
         dialog = new Dialog(15, 25);
         //Board area
         boxCollider = new BoxCollider(x, y, grid_size*board_col, grid_size*board_row);
+        //Draw board
+        image = Handler.spr_board_bg;
         //Draw line
         for (int i = 0; i < board_row; i++) {
             for (int j = 0; j < board_col; j++) {
@@ -46,10 +49,11 @@ public class Board extends GameObject {
             }
         }
         //Init first 4 pieces
-        pieces[3][3] = new Piece(grid2Real(3) + grid_size/2, grid2Real(3) + grid_size/2, -1);
-        pieces[3][4] = new Piece(grid2Real(4) + grid_size/2, grid2Real(3) + grid_size/2, 1);
-        pieces[4][3] = new Piece(grid2Real(3) + grid_size/2, grid2Real(4) + grid_size/2, 1);
-        pieces[4][4] = new Piece(grid2Real(4) + grid_size/2, grid2Real(4) + grid_size/2, -1);
+        
+        pieces[board_row/2-1][board_col/2-1] = new Piece(grid2Real(board_col/2-1) + grid_size/2, grid2Real(board_row/2-1) + grid_size/2, -1);
+        pieces[board_row/2-1][board_col/2] = new Piece(grid2Real(board_col/2) + grid_size/2, grid2Real(board_row/2-1) + grid_size/2, 1);
+        pieces[board_row/2][board_col/2-1] = new Piece(grid2Real(board_col/2-1) + grid_size/2, grid2Real(board_row/2) + grid_size/2, 1);
+        pieces[board_row/2][board_col/2] = new Piece(grid2Real(board_col/2) + grid_size/2, grid2Real(board_row/2) + grid_size/2, -1);
         showPossibleMove(false);
     }
 
@@ -108,7 +112,7 @@ public class Board extends GameObject {
         }
     }
     
-    private int t = 30;
+    private int t = 60;
     
     public void showGameResult() {
         int b = 0, w = 0;
