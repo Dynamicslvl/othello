@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class Handler {
 
-    public static LinkedList<GameObject>[] OBJECT;
+    public static LinkedList<LinkedList<GameObject>> OBJECT;
     public static BufferedImage spr_possible_move, spr_square;
     public static BufferedImage[] piece_flip = new BufferedImage[19];
 
@@ -52,16 +51,16 @@ public class Handler {
     }
 
     public void initSortingLayer() {
-        OBJECT = new LinkedList[max_layer];
+        OBJECT = new LinkedList<LinkedList<GameObject>>();
         for (int i = 0; i < max_layer; i++) {
-            OBJECT[i] = new LinkedList<>();
+            OBJECT.add(new LinkedList<>());
         }
     }
 
     public void tick() {
         for (int i = 0; i < max_layer; i++) {
-            for (int j = 0; j < OBJECT[i].size(); j++) {
-                OBJECT[i].get(j).tick();
+            for (int j = 0; j < OBJECT.get(i).size(); j++) {
+                OBJECT.get(i).get(j).tick();
             }
         }
 
@@ -74,18 +73,18 @@ public class Handler {
     public void render(Graphics2D g) {
         numberOfObject = 0;
         for (int i = 0; i < max_layer; i++) {
-            numberOfObject += OBJECT[i].size();
-            for (int j = 0; j < OBJECT[i].size(); j++) {
-                OBJECT[i].get(j).render(g);
+            numberOfObject += OBJECT.get(i).size();
+            for (int j = 0; j < OBJECT.get(i).size(); j++) {
+                OBJECT.get(i).get(j).render(g);
             }
         }
     }
 
     public static void addObject(GameObject object) {
-        OBJECT[object.layer.getId()].add(object);
+        OBJECT.get(object.layer.getId()).add(object);
     }
 
     public static void removeObject(GameObject object) {
-        OBJECT[object.layer.getId()].remove(object);
+        OBJECT.get(object.layer.getId()).remove(object);
     }
 }

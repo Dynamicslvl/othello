@@ -13,12 +13,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 import othello.entity.Board;
-import othello.entity.Piece;
-
-/**
- *
- * @author Admin
- */
 
 public class Game extends Canvas implements Runnable {
     

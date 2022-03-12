@@ -7,7 +7,6 @@ package othello.ui;
 import java.awt.Color;
 import othello.global.Layer;
 import othello.global.State;
-import othello.manager.Handler;
 
 /**
  *
@@ -22,7 +21,7 @@ public class Dialog extends TextArea {
 
     @Override
     public void create() {
-        setFont(Handler.fnt_b_aguda.deriveFont(20f));
+        // setFont(Handler.fnt_b_aguda.deriveFont(20f));
         setColor(new Color(255, 192, 0));
     }
 

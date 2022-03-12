@@ -19,7 +19,7 @@ import java.util.Random;
 public class General {
     
     public static boolean pause = false;
-    public static int max_layer = 10;
+    public static final int max_layer = 10;
     public static Random random = new Random();
     public static float timeScale = 1;
     public static float deltaTime = 1f / 60.f;
