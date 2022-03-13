@@ -23,7 +23,9 @@ public class Board extends GameObject {
     
     public Piece [][] pieces = new Piece[board_row][board_col];
     public PossibleMove [][] moves = new PossibleMove[board_row][board_col];
-    private int piece_color = 1;
+    public int piece_color = 1;
+    public int control_color = 1;
+    public boolean isBotTurn = false;
     private int move_count = 0;
     private Dialog dialog;
 
@@ -36,10 +38,13 @@ public class Board extends GameObject {
     public void create() {
         //Dialog
         dialog = new Dialog(15, 25);
+        
         //Board area
         boxCollider = new BoxCollider(x, y, grid_size*board_col, grid_size*board_row);
+        
         //Draw board
         image = Handler.spr_board_bg;
+        
         //Draw line
         for (int i = 0; i < board_row; i++) {
             for (int j = 0; j < board_col; j++) {
@@ -48,8 +53,8 @@ public class Board extends GameObject {
                 moves[i][j].setActive(false);
             }
         }
-        //Init first 4 pieces
         
+        //Init first 4 pieces
         pieces[board_row/2-1][board_col/2-1] = new Piece(grid2Real(board_col/2-1) + grid_size/2, grid2Real(board_row/2-1) + grid_size/2, -1);
         pieces[board_row/2-1][board_col/2] = new Piece(grid2Real(board_col/2) + grid_size/2, grid2Real(board_row/2-1) + grid_size/2, 1);
         pieces[board_row/2][board_col/2-1] = new Piece(grid2Real(board_col/2-1) + grid_size/2, grid2Real(board_row/2) + grid_size/2, 1);
@@ -67,10 +72,6 @@ public class Board extends GameObject {
         }
         if (move_count == 0) t = Math.max(t - 1, -1);
         if (t == 0) showGameResult();
-    }
-    
-    private boolean isValid(int i, int j) {
-        return (0 <= i) && (i < board_row) && (0 <= j) && (j < board_col);
     }
     
     private boolean isPossible(int I, int J) {
@@ -109,6 +110,13 @@ public class Board extends GameObject {
         if (move_count == 0 && !isOtherChecked) {
             piece_color = -piece_color;
             showPossibleMove(true);
+            if (control_color != piece_color) {
+                isBotTurn = true;
+            }
+            return;
+        }
+        if (control_color != piece_color) {
+            isBotTurn = true;
         }
     }
     
@@ -123,7 +131,7 @@ public class Board extends GameObject {
                 else w++;
             }
         }
-        String text = "Black: " + b + " - White: " + w + "          ";
+        String text = "Black: " + b + " - White: " + w + "            ";
         if (b > w){ 
             text += "BLACK WON!";
         }
@@ -163,11 +171,21 @@ public class Board extends GameObject {
     }
     
     public void addPiece() {
+        if (piece_color != control_color) return;
         if (!mouse_up) return;
         if (!inBoxCollider(mouse_x, mouse_y, boxCollider)) return;
         int i = real2Grid(mouse_y);
         int j = real2Grid(mouse_x);
         if (!moves[i][j].isActive()) return;
+        pieces[i][j] = new Piece(grid2Real(j) + grid_size/2, grid2Real(i) + grid_size/2, piece_color);
+        flipPieces(i, j);
+        piece_color = -piece_color;
+        showPossibleMove(false);
+    }
+    
+    public void addPiece(int position) {
+        int i = position / board_col;
+        int j = position % board_col;
         pieces[i][j] = new Piece(grid2Real(j) + grid_size/2, grid2Real(i) + grid_size/2, piece_color);
         flipPieces(i, j);
         piece_color = -piece_color;

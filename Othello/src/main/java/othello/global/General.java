@@ -46,7 +46,7 @@ public class General {
     }
 
     public static boolean isValid(int i, int j) {
-        return !(i < 0 || j < 0 || i >= 16 || j >= 20);
+        return !(i < 0 || j < 0 || i >= board_row || j >= board_col);
     }
 
     public static int numberOfDigits(int n) {

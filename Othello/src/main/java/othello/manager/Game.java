@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 import othello.entity.Board;
+import othello.entity.Bot;
 
 /**
  *
@@ -37,7 +38,7 @@ public class Game extends Canvas implements Runnable {
     }
     
     public void initObjects() {
-        new Board(0, 0);
+        new Bot(0, 0, new Board(0, 0));
     }
     
     public Game() {
@@ -93,7 +94,7 @@ public class Game extends Canvas implements Runnable {
             frames++;
             if(System.currentTimeMillis()-timer > 1000){
                 timer += 1000;
-                if (!pause) System.out.println("FPS: " + frames + " OBJS: " + handler.numberOfObject);
+                //if (!pause) System.out.println("FPS: " + frames + " OBJS: " + handler.numberOfObject);
                 frames = 0;
             }
         }

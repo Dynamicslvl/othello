@@ -44,7 +44,7 @@ public class Piece extends GameObject {
             image_id = 18;
         }
         set_centered_offset();
-        shadow = new Shadow(x + 8, y + 8);
+        shadow = new Shadow(x + grid_size*0.1f + 1, y + grid_size*0.1f + 1);
     }
 
     @Override
