@@ -21,6 +21,8 @@ public class General {
     public static boolean pause = false;
     public static int max_layer = 10;
     public static Random random = new Random();
+    public static boolean isBotThinking = false;
+    public static float botThinkingTime = 0;
     public static float timeScale = 1;
     public static float deltaTime = 1f / 60.f;
     public static float mouse_x = 0, mouse_y = 0;

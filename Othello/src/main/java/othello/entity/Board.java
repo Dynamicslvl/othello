@@ -95,14 +95,19 @@ public class Board extends GameObject {
         return false;
     }
     
+    private int last_move = -1;
+    
     public void showPossibleMove(boolean isOtherChecked) {
         move_count = 0;
         for (int i = 0; i < board_row; i++) {
             for (int j = 0; j < board_col; j++) {
-                moves[i][j].setActive(false);
+                if (i*board_col + j != last_move) {
+                    moves[i][j].setActive(false);
+                }
                 if (pieces[i][j] != null) continue;
                 if (isPossible(i, j)) {
                     moves[i][j].setActive(true);
+                    moves[i][j].setImageColor(new Color(0, 92, 66));
                     move_count++;
                 }
             }
@@ -176,10 +181,12 @@ public class Board extends GameObject {
         if (!inBoxCollider(mouse_x, mouse_y, boxCollider)) return;
         int i = real2Grid(mouse_y);
         int j = real2Grid(mouse_x);
-        if (!moves[i][j].isActive()) return;
+        if (!moves[i][j].isActive() || pieces[i][j] != null) return;
         pieces[i][j] = new Piece(grid2Real(j) + grid_size/2, grid2Real(i) + grid_size/2, piece_color);
         flipPieces(i, j);
         piece_color = -piece_color;
+        moves[i][j].setImageColor(Color.red);
+        last_move = i*board_col + j;
         showPossibleMove(false);
     }
     
@@ -189,6 +196,8 @@ public class Board extends GameObject {
         pieces[i][j] = new Piece(grid2Real(j) + grid_size/2, grid2Real(i) + grid_size/2, piece_color);
         flipPieces(i, j);
         piece_color = -piece_color;
+        moves[i][j].setImageColor(Color.red);
+        last_move = i*board_col + j;
         showPossibleMove(false);
     }
     

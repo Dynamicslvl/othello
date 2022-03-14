@@ -27,7 +27,8 @@ public class Game extends Canvas implements Runnable {
     public static State gameState = State.Game;
     
     private Thread thread;
-    private boolean running = false;
+    public static Thread botThread;
+    public static boolean running = false;
     
     private Handler handler;
     
@@ -38,7 +39,7 @@ public class Game extends Canvas implements Runnable {
     }
     
     public void initObjects() {
-        new Bot(0, 0, new Board(0, 0));
+        new Bot(new Board(0, 0));
     }
     
     public Game() {
@@ -83,6 +84,9 @@ public class Game extends Canvas implements Runnable {
         while(running){
             long now = System.nanoTime();
             delta += (now-lastTime)/ns;
+            if (isBotThinking) {
+                botThinkingTime += (now-lastTime)/1000000000f;
+            }
             lastTime = now;
             while(delta >= 1){
                 handler.tick();

@@ -19,9 +19,10 @@ import static othello.manager.Handler.spr_shadow;
  */
 public class Piece extends GameObject {
     
+    public static float delay = 0.03f;
     public int piece_color = 1;
     private boolean flipping = false;
-    private float delay = 0, t = 0;
+    private float t = 0;
     private BufferedImage[] images;
     private int image_id = 0, image_count = 0;
     private Shadow shadow;
@@ -34,7 +35,6 @@ public class Piece extends GameObject {
 
     @Override
     public void create() {
-        setDelay(0.03f);
         setImages(piece_flip);
         if (piece_color == 1) {
             image = images[0];
@@ -77,10 +77,6 @@ public class Piece extends GameObject {
         shadow.setImage_yscale(scale);
         shadow.set_centered_offset();
         set_centered_offset();
-    }
-    
-    public void setDelay(float delay) {
-        this.delay = Math.max(deltaTime, delay);
     }
     
     public void setImages(BufferedImage[] images){
